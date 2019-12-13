@@ -12,22 +12,25 @@
 <body>
   <div id='app'></div>
   <script type='text/babel'>
-    const name = 'Cheesie ';
-    const handle = '@cheesiee';
+    function App() {
 
-    function NameComponent(props){
-      return <h1>{props.name}</h1>
-    }
-
-    function HandleComponent(props){
-      return <h3>{props.handle}</h3>
-    }
-
-    function App(){
+    function FriendList(props){
       return (
-        <div id='container'>
-          <NameComponent name={name} />
-          <HandleComponent handle={handle} />
+        <ul>
+          {props.list.map((name)=> (
+            <li key={name}>
+              {name}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+      //only inside the scope of App function
+      const friends = ['Naruto','Sauske', 'Sakura']
+      return (
+        <div>
+          <FriendList list={friends} />
         </div>
       );
     }
