@@ -17,7 +17,7 @@
         <ul>
           {props.list.map((name)=> (
             <li key={name}>
-              <span>{name}</span>
+              <span>{name} </span>
               <button onClick={() => props.onRemoveFriend(name)}>Remove</button>
             </li>
           ))}
@@ -31,13 +31,21 @@
 
         this.state = {
           //now living on the component's instance
-          friends: ['Naruto', 'Sauske', 'Sakura']
+          friends: ['Naruto', 'Sauske', 'Sakura'],
+          input: '',
         }
         this.handleRemoveFriend = this.handleRemoveFriend.bind(this);
+        this.updateInput = this.updateInput.bind(this);
+        this.handleAddFriend = this.handleAddFriend.bind(this);
       }
-      //handleAddFriend() {
-
-      //}
+      handleAddFriend() {
+        this.setState((currentState) => {
+          return {
+            //cannot use .push() because DONT modify state directly
+            friends: currentState.friends.concat([currentState.input]),
+            input: '',
+          }})
+      }
       handleRemoveFriend(name) {
         this.setState((currentState) => {
           return {
@@ -45,11 +53,26 @@
           }
         })
       }
+      updateInput(event){
+        const value = event.target.value;
+        this.setState({
+          input: value
+        });
+
+      }
       render() {
         //no longer a variable inside this local scope
         //const friends = ['Naruto', 'Sauske', 'Sakura'];
         return (
           <div>
+            <input
+              onClick={this.handleAddFriend}
+              type="text"
+              placeholder="new friend"
+              value={this.state.input}
+              onChange={this.updateInput}
+            />
+            <button>Submit</button>
             <FriendList
             list={this.state.friends}
             onRemoveFriend={this.handleRemoveFriend}
