@@ -12,27 +12,51 @@
 <body>
   <div id='app'></div>
   <script type='text/babel'>
-    function App() {
-
     function FriendList(props){
       return (
         <ul>
           {props.list.map((name)=> (
             <li key={name}>
-              {name}
+              <span>{name}</span>
+              <button onClick={() => props.onRemoveFriend(name)}>Remove</button>
             </li>
           ))}
         </ul>
       )
     }
 
-      //only inside the scope of App function
-      const friends = ['Naruto','Sauske', 'Sakura']
-      return (
-        <div>
-          <FriendList list={friends} />
-        </div>
-      );
+    class App extends React.Component{
+      constructor(props){
+        super(props);
+
+        this.state = {
+          //now living on the component's instance
+          friends: ['Naruto', 'Sauske', 'Sakura']
+        }
+        this.handleRemoveFriend = this.handleRemoveFriend.bind(this);
+      }
+      //handleAddFriend() {
+
+      //}
+      handleRemoveFriend(name) {
+        this.setState((currentState) => {
+          return {
+            friends: currentState.friends.filter((friend) => friend !== name)
+          }
+        })
+      }
+      render() {
+        //no longer a variable inside this local scope
+        //const friends = ['Naruto', 'Sauske', 'Sakura'];
+        return (
+          <div>
+            <FriendList
+            list={this.state.friends}
+            onRemoveFriend={this.handleRemoveFriend}
+             />
+          </div>
+        );
+      }
     }
 
     ReactDOM.render(
